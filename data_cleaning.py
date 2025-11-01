@@ -37,11 +37,8 @@ else:
 
 
 # Merge MVP voting and winners
-mvp_voting_df = pd.read_csv("mvp_voting.csv")
-mvp_voting_df = mvp_voting_df[["PLAYER_NAME", "SEASON", "MVP_PCT_SHARE"]]
-mvp_winners_df = pd.read_csv("mvp_winners.csv")
-mvp_winners_df["IS_MVP"] = 1
-mvp_df = pd.merge(mvp_voting_df, mvp_winners_df, on=["SEASON", "PLAYER_NAME"], how="left")
+mvp_df = pd.read_csv("mvp_voting.csv")
+mvp_df = mvp_df[["PLAYER_NAME", "SEASON", "MVP_PCT_SHARE"]]
 
 # Merge player data and MVP data
 all_df = pd.merge(player_seasons_df, mvp_df, on=["SEASON", "PLAYER_NAME"], how="left")
