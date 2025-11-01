@@ -42,7 +42,6 @@ mvp_df = mvp_df[["PLAYER_NAME", "SEASON", "MVP_PCT_SHARE"]]
 
 # Merge player data and MVP data
 all_df = pd.merge(player_seasons_df, mvp_df, on=["SEASON", "PLAYER_NAME"], how="left")
-all_df["IS_MVP"] = all_df["IS_MVP"].fillna(value=0)
 all_df["MVP_PCT_SHARE"] = all_df["MVP_PCT_SHARE"].fillna(value=0)
 
 # Create per minute stats
