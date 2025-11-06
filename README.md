@@ -28,8 +28,8 @@ To use machine learning (Random Forest regression) to model the relationship bet
 
 ## 🚀 Future Work
 	•	Add advanced metrics (PER, WS, BPM, VORP)
-	•	Build a Streamlit dashboard for live MVP race predictions
+	•	Build a dashboard for live MVP race predictions
 	•	Explore time-series trends in MVP criteria
 
-## 🧑‍💻 Author
+## Author
 Grant Thurman
