@@ -44,6 +44,16 @@ mvp_df = mvp_df[["PLAYER_NAME", "SEASON", "MVP_PCT_SHARE"]]
 all_df = pd.merge(player_seasons_df, mvp_df, on=["SEASON", "PLAYER_NAME"], how="left")
 all_df["MVP_PCT_SHARE"] = all_df["MVP_PCT_SHARE"].fillna(value=0)
 
+# Merge advanced metrics data into all data
+advanced_df = pd.read_csv("advanced_metrics.csv")
+advanced_df.drop(axis="columns", labels=["Player-additional"], inplace=True)
+all_df = pd.merge(all_df, advanced_df, on=["SEASON", "PLAYER_NAME"], how="left")
+
+# Soft threshold on minutes and games played to eliminate outliers of per-possession stats
+all_df = all_df[(all_df["MIN"] >= 15) & (all_df["GP"] >= 25)]
+
+## FEATURE ENGINEERING
+
 # Create per minute stats
 all_df["PTS_PER_MIN"] = all_df["PTS"] / all_df["MIN"]
 all_df["AST_PER_MIN"] = all_df["AST"] / all_df["MIN"]
@@ -56,8 +66,10 @@ all_df["EFFICIENCY"] = all_df["PTS"] + all_df["AST"] + all_df["REB"] + all_df["S
 
 # Remove rank columns to avoid multicollinearity
 all_df = all_df.loc[:, ~all_df.columns.str.contains("RANK")]
+
 # Remove other columns that cause multicollinearity
 all_df.drop(axis="columns", labels=["W", "L", "FGM", "FG3M", "FTM", "OREB", "DREB", "DD2", "TD3"], inplace=True)
+
 # Remove unnecessary columns
 all_df.drop(axis="columns", labels=["AGE", "PF", "PFD", "TOV", "BLKA", "NBA_FANTASY_PTS", "WNBA_FANTASY_PTS", "TEAM_COUNT", "TEAM_ABBREVIATION", "TEAM_ID", "PLAYER_ID", "NICKNAME"], inplace=True)
 
